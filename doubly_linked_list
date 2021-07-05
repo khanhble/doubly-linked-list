@@ -118,3 +118,16 @@ void delete(struct Node* curr, struct Node* pred, struct Node* adjc){
         _delete2(curr, pred, adjc);
      }       
 }
+
+void disp(){
+    struct Node*curr;
+    curr->prev= head;//make prev point of curr node points to head
+    while(curr != NULL){//as long as the list doesn't ends
+        printf("%d\t", curr->data);
+        curr = curr->next; //move on to the next node
+    }
+    printf("\n");
+}
+// I'LL WORK ON THIS FUNCTION LATER AND THEN COMPILE IT TO SEE IF MY LOGIC IS RIGHT 
+void test(){
+}
