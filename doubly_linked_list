@@ -14,11 +14,11 @@ struct Node* head;
 struct Node* tail;
 
 void insert(struct Node*, struct Node*, struct Node*);
-void delete(struct Node*, struct Node*);
+void delete(struct Node*, struct Node*, struct Node*);
 void _insert1(struct Node*);
 void _insert2(struct Node*, struct Node*, struct Node*);
 void _delete1();
-void _delete2(struct Node*, struct Node*);
+void _delete2(struct Node*, struct Node*, struct Node*);
 void _delete3(struct Node*, struct Node*);
 void init();
 void cleanup();
@@ -56,7 +56,7 @@ void _insert1(struct Node* curr){//insert node at the front
             head = curr->prev;
         }
 }
-
+// I MIGHT CUT DOWN INSERT FRONT, END AND MID AND BREAK DOWN 3 INSERT FUNCTION IF NEEDED
 void _insert2(struct Node* curr, struct Node *pred, struct Node* adjc){//adjc is the node next to current node 
     if(pred->next == NULL){//if added at the end of the list
       curr->next= NULL;
@@ -92,6 +92,29 @@ void _delete1(){//delete first node
   else{//more than 1 deleted node
   head = curr->next; //make the head pointer point to the same place as the next pointer of the delete node
   }
-  free(curr);
+  free(curr);//delete the node
 }
 
+void _delete2(struct Node* curr, struct Node* pred, struct Node* adjc){//delete at middle
+    pred->next = curr-> next; //make the next of previous node points to the same place as the deletemed node
+    adjc->prev = pred->next; //make the prev of the node next to the delete node points to the node preiouvs to delete node
+    free(curr);
+}
+
+void _delete3(struct Node* curr, struct Node* pred){//delete at end
+    pred->next = NULL; 
+    tail = pred->prev; //make tail point to previous node 
+    free(curr);
+}
+
+void delete(struct Node* curr, struct Node* pred, struct Node* adjc){
+    if( pred == NULL){
+        _delete1();
+     }
+     else if( curr->next == NULL){
+        _delete3(curr, pred);
+     }
+     else{
+        _delete2(curr, pred, adjc);
+     }       
+}
