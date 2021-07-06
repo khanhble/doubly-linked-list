@@ -13,10 +13,10 @@ struct Node{//Node of a doubly linked list
 struct Node* head; 
 struct Node* tail;
 
-void insert(struct Node*, struct Node*, struct Node*);
+void insert(struct Node*, struct Node*);
 void delete(struct Node*, struct Node*, struct Node*);
-void _insert1(struct Node*, struct Node*);
-void _insert2(struct Node*, struct Node*, struct Node*);
+void _insert1(struct Node*);
+void _insert2(struct Node*, struct Node*);
 void _insert3(struct Node*, struct Node*, struct Node*);
 void _delete1();
 void _delete2(struct Node*, struct Node*, struct Node*);
@@ -48,7 +48,7 @@ void cleanup(){
     }
 }
 
-void _insert1(struct Node* curr, struct Node* adjc){//insert node at the front 
+void _insert1(struct Node* curr){//insert node at the front 
         if(head == NULL){//if there is no node at the linked list yet
         printf("insert 1 no node called\n");
             curr->next = NULL;
@@ -59,48 +59,47 @@ void _insert1(struct Node* curr, struct Node* adjc){//insert node at the front
         else{//if the doubly linked list already have existing mode
             printf("insert 1 node exist called\n");
            head->prev = curr;//head is pointing to the adjc node so maje prev of adjc node points to curr
-           curr->next= head;
+          // curr->next= head;
            head = curr;
             //curr->next = head;//make curr next points to adjc node same as head pointers
             //head = curr;
         }
 }
 // I MIGHT CUT DOWN INSERT FRONT, END AND MID AND BREAK DOWN 3 INSERT FUNCTION IF NEEDED
-void _insert2(struct Node* curr, struct Node *pred, struct Node* adjc){//adjc is the node next to current node 
-    if(pred->next == NULL){//if added at the end of the list
+void _insert2(struct Node* curr, struct Node *pred){//adjc is the node next to current node 
+    if(tail == pred){//if added at the end of the list
       printf("insert 2 end called\n");
-      curr->next= NULL;
-      pred->next = curr->prev;
-      curr->prev = pred->next; //make them next of previous node and prev of crueent node point to each other
-      tail = curr->prev;  
+      tail->next= curr;
+      curr->prev= tail;
     }
     else{//if insert at middle
     printf("Insert 2 mid called here\n");
       curr->next = pred->next; //make next of current point to the same place as previous node
       //connect the pointers of curr and pred node together
-      pred->next = curr->prev;
-      pred->next = curr->prev;
-      //connect the pointers of curr and adjc together
-      curr->next= adjc->prev;
-      adjc->prev= curr->next;
+      pred->next = curr;
+      curr->prev = pred;
+      //make connect from the node adjacent and the current node
+      curr->next->prev= curr;
+
     }
 }
-void insert(struct Node* curr, struct Node* pred, struct Node* adjc){
+void insert(struct Node* curr, struct Node* pred){
   if(pred == NULL){
-  _insert1(curr, adjc);
+  _insert1(curr);
   }
   else{
-  _insert2(curr, pred, adjc);
+  _insert2(curr, pred);
   }
 }
 
 void _delete1(){//delete first node
-  struct Node* curr; //create a node pointer pointing to the 1st node of the list
-  curr->prev = head;
+  struct Node* curr = head; //create a node pointer pointing to the 1st node of the list
   if(curr->next = NULL){//if there is only 1 node
+  printf("Delete func for only 1 node called\n");
     head = tail = NULL; //reset to inital condition 
   }
   else{//more than 1 deleted node
+    printf("Delete func for more than 1 node called\n");
   head = curr->next; //make the head pointer point to the same place as the next pointer of the delete node
   }
   free(curr);//delete the node
@@ -150,30 +149,33 @@ void test(){
     n1->data = 10;
     n1->next = NULL;
     n1->prev = NULL;
-    insert(n1, NULL, NULL);
+    insert(n1, NULL);
     disp();
+    //delete(n1, NULL, NULL);
+    //disp();
     // init 2nd node
-   /*struct Node* n2 = malloc(sizeof(struct Node));
+   struct Node* n2 = malloc(sizeof(struct Node));
     n2->data = 20;
     n2->next = NULL;
     n1->prev = NULL;
-    insert(n2, n1, NULL);
+    insert(n2, n1);
     disp();
-    /*
+   
     struct Node* n3 = malloc(sizeof(struct Node));
     n3->data = 30;
     n3->next = NULL;
     n3->prev = NULL;
-    insert(n3, n2, NULL);
+    insert(n3, n2);
     disp();
-
+/*
     struct Node* n4 = malloc(sizeof(struct Node));    
      n4->data = 25;
      n4->next = NULL;
-    */ 
+     */
 
      //insert(n4, n2,  n3);
      //disp();   
      cleanup();
     //disp();// this gives garbage val*/ 
 }
+
