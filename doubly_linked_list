@@ -17,6 +17,7 @@ void insert(struct Node*, struct Node*, struct Node*);
 void delete(struct Node*, struct Node*, struct Node*);
 void _insert1(struct Node*, struct Node*);
 void _insert2(struct Node*, struct Node*, struct Node*);
+void _insert3(struct Node*, struct Node*, struct Node*);
 void _delete1();
 void _delete2(struct Node*, struct Node*, struct Node*);
 void _delete3(struct Node*, struct Node*);
@@ -33,30 +34,35 @@ int main(){
 }
 
 void init(){ //create 2 pointers to start the doubly linked list
+    printf("init func called\n");
     head= tail = NULL;
 }
 
 void cleanup(){
-    struct Node* curr;//create a curr pointer to go thru all the node in the doubly linked list
+    printf("clean func called\n");
+    struct Node* temp;//create a pointer to go thru all the node in the doubly linked list
     while(head != NULL){
-        curr->prev = head; // assign the temp pointer to the prev pointer first node
-        curr = curr->next;
-        free(curr);
+        temp =head; // assign the temp pointer to the prev pointer first node
+        temp = temp->next;
+        free(temp);
     }
 }
 
 void _insert1(struct Node* curr, struct Node* adjc){//insert node at the front 
         if(head == NULL){//if there is no node at the linked list yet
         printf("insert 1 no node called\n");
-            curr->next = NULL; //make sure the end of the added node is NULL
-            head = tail = curr->prev ;
+            curr->next = NULL;
+            head =curr;
+            tail =curr;
+            //printf("Seg fault check\n");
         }
         else{//if the doubly linked list already have existing mode
             printf("insert 1 node exist called\n");
-            curr->prev = NULL;
-            curr->next = adjc->prev;//coonect the current node to the node next to it
-            adjc->prev = curr->next;
-            head = curr->prev;
+           head->prev = curr;//head is pointing to the adjc node so maje prev of adjc node points to curr
+           curr->next= head;
+           head = curr;
+            //curr->next = head;//make curr next points to adjc node same as head pointers
+            //head = curr;
         }
 }
 // I MIGHT CUT DOWN INSERT FRONT, END AND MID AND BREAK DOWN 3 INSERT FUNCTION IF NEEDED
@@ -124,34 +130,36 @@ void delete(struct Node* curr, struct Node* pred, struct Node* adjc){
      }       
 }
 
-void disp(){//I think this function is giving seg fault
-    struct Node*curr;
-    head = curr->prev;
-    curr->prev = NULL;//make prev point of curr node points to head
+void disp(){
+    struct Node* curr = head;
+    //head = curr->prev;
+    //curr->prev = NULL;//make prev point of curr node points to head
     while(curr != NULL){//as long as the list doesn't ends
         printf("%d\t", curr->data);
         curr = curr->next; //move on to the next node
     }
+    //printf("Seg fault check 1\n");
     printf("\n");
+    //printf("Seg fault check 2\n");
 }
 
 void test(){
     //create the first node
     struct Node* n1 = malloc(sizeof(struct Node));
-    //init Node n1
+    //create Node n1
     n1->data = 10;
     n1->next = NULL;
     n1->prev = NULL;
     insert(n1, NULL, NULL);
     disp();
     // init 2nd node
-    struct Node* n2 = malloc(sizeof(struct Node));
+   /*struct Node* n2 = malloc(sizeof(struct Node));
     n2->data = 20;
     n2->next = NULL;
     n1->prev = NULL;
     insert(n2, n1, NULL);
     disp();
-    
+    /*
     struct Node* n3 = malloc(sizeof(struct Node));
     n3->data = 30;
     n3->next = NULL;
@@ -162,12 +170,10 @@ void test(){
     struct Node* n4 = malloc(sizeof(struct Node));    
      n4->data = 25;
      n4->next = NULL;
-     
+    */ 
 
-     insert(n4, n2,  n3);
-     disp();   
-     
-    //disp();// this gives garbage val 
+     //insert(n4, n2,  n3);
+     //disp();   
+     cleanup();
+    //disp();// this gives garbage val*/ 
 }
-
-
