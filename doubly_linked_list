@@ -121,13 +121,34 @@ void delete(struct Node* curr, struct Node* pred, struct Node* adjc){
 
 void disp(){
     struct Node*curr;
-    curr->prev= head;//make prev point of curr node points to head
+    curr->prev = head;//make prev point of curr node points to head
     while(curr != NULL){//as long as the list doesn't ends
         printf("%d\t", curr->data);
         curr = curr->next; //move on to the next node
     }
     printf("\n");
 }
-// I'LL WORK ON THIS FUNCTION LATER AND THEN COMPILE IT TO SEE IF MY LOGIC IS RIGHT 
+
 void test(){
+    //create the first node
+    struct Node* n1 = malloc(sizeof(struct Node));
+    n1->data = 10;
+    n1->next = NULL;
+    insert(n1, NULL, NULL);
+    disp();
+    //2nd node
+    struct Node* n2 = malloc(sizeof(struct Node));
+    n2->data = 20;
+    n2->next = NULL;
+    insert(n2, n1, NULL);
+    disp();
+    
+    struct Node* n3 = malloc(sizeof(struct Node));
+    n3->data = 30;
+    n3->next = NULL;
+    insert(n3, n2, NULL);
+    disp();
+     
+
 }
+
