@@ -75,8 +75,7 @@ void _insert2(struct Node* curr, struct Node *pred){//adjc is the node next to c
      pred->next = curr;//PRED OF NEXT WILL POINT TO THE WHOLE N2
      curr->prev = pred;
      tail = curr;
-      //tail->next= curr;
-      //curr->prev= tail;
+
     }
 //MID
 //CURR=N4; PRED N2;
@@ -87,8 +86,6 @@ void _insert2(struct Node* curr, struct Node *pred){//adjc is the node next to c
       //connect the pointers of curr and pred node together
       pred->next = curr;
       curr->prev = pred;
-      //make connect from the node adjacent and the current node
-      //curr->next->prev= curr; CUT
 
     }
 }
@@ -231,5 +228,3 @@ void test(){
     insert(n2, n1);
     disp();
 }
-
-
