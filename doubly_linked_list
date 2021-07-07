@@ -29,7 +29,7 @@ void test();
 int main(){
     init();
     test();
-   //cleanup();
+   cleanup();
     return 0;
 }
 
@@ -42,8 +42,9 @@ void cleanup(){
     printf("clean func called\n");
      struct Node* temp = head;
     while(temp != NULL){//as long as the list doesn't ends
-        temp = temp->next;
-        free(temp);//move on to the next node
+        head = temp->next;
+        free(temp);
+        temp = head;//move on to the next node
     }
 }
 
