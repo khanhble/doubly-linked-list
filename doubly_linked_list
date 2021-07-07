@@ -118,6 +118,7 @@ void _delete1(){//delete first node
 }
 
 void _delete2(struct Node* curr, struct Node* pred, struct Node* adjc){//delete at middle
+    printf("Delete for mid mode called \n");
     pred->next = curr->next; //make the next of previous node points to the same place as the deletemed node
     adjc->prev = curr->prev;
     //adjc->prev = curr->next; //make the prev of the node next to the delete node points to the node preiouvs to delete node
@@ -228,3 +229,4 @@ void test(){
     insert(n2, n1);
     disp();
 }
+
