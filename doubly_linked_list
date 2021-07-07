@@ -40,10 +40,10 @@ void init(){ //create 2 pointers to start the doubly linked list
 
 void cleanup(){
     printf("clean func called\n");
-     struct Node* curr = head;
-    while(curr != NULL){//as long as the list doesn't ends
-        curr = curr->next;
-        free(curr);//move on to the next node
+     struct Node* temp = head;
+    while(temp != NULL){//as long as the list doesn't ends
+        temp = temp->next;
+        free(temp);//move on to the next node
     }
 }
 
@@ -210,15 +210,25 @@ void test(){
     printf("Linked list after node n4 is deleted: \n");
     disp();
     
-    /*
     n1 = malloc(sizeof(struct Node));
     n1->data = 10;
-    n1->next = NULL;
+    n1->next = n2; //  I HAVE TO SAY N1 IS CONNECT TO N2 TO MAKE IT JOIN OUR LINKED LIST 
     n1->prev = NULL;
     insert(n1, NULL);
-
+    printf("After add n1 again\n");
     disp();
-    //delete(n2, n1); disp();    n2 = malloc(sizeof(struct Node));    n2->data = 20; n2->link = NULL; insert(n2, n1); disp();    delete(n5, n3); disp();
-*/
+
+    delete(n2, n1, n3);
+    printf("After deleting n2\n");
+    disp();
+    //creating n2 again
+    n2 = malloc(sizeof(struct Node)); 
+    n2->data = 22;
+    //saying n2 is connected to n1 and n3 so that it joined our linked list
+    n2->next = n3;
+    n2->prev = n1;
+    insert(n2, n1);
+    disp();
 }
+
 
