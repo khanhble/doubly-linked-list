@@ -1,7 +1,5 @@
-// Online C compiler to run C program online
 #include <stdio.h>
 #include <stdlib.h>
-#include <assert.h>
 
 struct Node{//Node of a doubly linked list
     struct Node* next;
@@ -17,7 +15,6 @@ void insert(struct Node*, struct Node*);
 void delete(struct Node*, struct Node*, struct Node*);
 void _insert1(struct Node*);
 void _insert2(struct Node*, struct Node*);
-void _insert3(struct Node*, struct Node*, struct Node*);
 void _delete1();
 void _delete2(struct Node*, struct Node*, struct Node*);
 void _delete3(struct Node*, struct Node*);
@@ -42,9 +39,9 @@ void cleanup(){
     printf("clean func called\n");
      struct Node* temp = head;
     while(temp != NULL){//as long as the list doesn't ends
-        head = temp->next;
+        head = temp->next;//move on the next node
         free(temp);
-        temp = head;//move on to the next node
+        temp = head;//assign head to the next adjecnt to the node being freed
     }
 }
 
@@ -57,40 +54,31 @@ void _insert1(struct Node* curr){//insert node at the front
         }
         else{//if the doubly linked list already have existing mode
             printf("insert 1 node exist called\n");
-           head->prev = curr;//head is pointing to the prev node so maje prev of adjc node points to curr
-  //        this means: exisitnode->prev = curr; because head= prev earlier
-           head = curr;
+           head->prev = curr;//make the prev pred node points to the current node
+           head = curr; //make the current node head
 
         }
 }
-// I MIGHT CUT DOWN INSERT FRONT, END AND MID AND BREAK DOWN 3 INSERT FUNCTION IF NEEDED
+
 void _insert2(struct Node* curr, struct Node *pred){//adjc is the node next to current node
-//PRED = N2;
-//CURR =N4;
-//END
+
     if(tail == pred){//if added at the end of the list
-    //IF(N3== N2)
-      printf("insert 2 end called\n");//insert after
-     curr->next = pred->next; //NEXT OF N2 WILL POINT TO THE SAME SPACE AS NEXT N1
-     pred->next = curr;//PRED OF NEXT WILL POINT TO THE WHOLE N2
-     curr->prev = pred;
+      printf("insert 2 end called\n");
+     curr->next = pred->next; //make the next pointer of current node points to the same place as next pointer of pred node (point to the whole adjacent node)
+     pred->next = curr;//connect pred node with current node
+     curr->prev = pred;//conect current node with pred
      tail = curr;
 
     }
-//MID
-//CURR=N4; PRED N2;
     else{//if insert at middle
-    printf("Insert 2 mid called here\n");//append
-      //MAKE THEM POINT AT THE SAME PLACE WHOLE N3 NODE
-      curr->next = pred->next; //make next of current point to the same place as previous node
+    printf("Insert 2 mid called here\n");
+      curr->next = pred->next; //make next of current point to the same place as next of previous node
       //connect the pointers of curr and pred node together
       pred->next = curr;
       curr->prev = pred;
-
     }
 }
-//INSERT(N4, N2);
-//PRED =N2;
+
 void insert(struct Node* curr, struct Node* pred){
   if(pred == NULL){
   _insert1(curr);
@@ -109,28 +97,23 @@ void _delete1(){//delete first node
   else{//more than 1 deleted node
     printf("Delete func for more than 1 node called\n");
     delete_node = head;
-    head = head->next; //make the head pointer point to the same place as the next pointer of the delete node
-    if(head != NULL){
-        head->prev = NULL;
-    }
+    head = head->next; //make head pointer points to the node next to the deleted node
   }
   free(delete_node);//delete the node
 }
 
 void _delete2(struct Node* curr, struct Node* pred, struct Node* adjc){//delete at middle
     printf("Delete for mid mode called \n");
-    pred->next = curr->next; //make the next of previous node points to the same place as the deletemed node
-    adjc->prev = curr->prev;
-    //adjc->prev = curr->next; //make the prev of the node next to the delete node points to the node preiouvs to delete node
+    pred->next = curr->next; //make the next of previous node points to the same next pointer as the deleted node
+    adjc->prev = curr->prev; //make the prev of the node next to the delete node points to the node preiouvs to delete node
     free(curr);
 }
 
 void _delete3(struct Node* curr, struct Node* pred){//delete at end
     struct Node* delete_node = tail;
     printf("delete func for last node called \n");
-    tail = tail->prev;
+    tail = pred; //make tail points to the node pervious to the delete node which is pred
     pred->next = NULL;
-    tail = pred;
     free(delete_node);
 }
 
@@ -147,10 +130,10 @@ void delete(struct Node* curr, struct Node* pred, struct Node* adjc){
 }
 
 void disp(){
-    struct Node* curr = head;
-    while(curr != NULL){//as long as the list doesn't ends
-        printf("%d\t", curr->data);
-        curr = curr->next; //move on to the next node
+    struct Node* temp = head;
+    while(temp != NULL){//as long as the list doesn't ends
+        printf("%d\t", temp->data);
+        temp = temp->next; //move on to the next node
     }
     printf("\n");
 }
@@ -164,9 +147,7 @@ void test(){
     n1->prev = NULL;
     insert(n1, NULL);
     disp();
-    //delete(n1, NULL, NULL);
-    //disp();
-    // init 2nd node
+//init 2nd node
    struct Node* n2 = malloc(sizeof(struct Node));
     n2->data = 20;
     n2->next = NULL;
@@ -211,7 +192,7 @@ void test(){
     
     n1 = malloc(sizeof(struct Node));
     n1->data = 10;
-    n1->next = n2; //  I HAVE TO SAY N1 IS CONNECT TO N2 TO MAKE IT JOIN OUR LINKED LIST 
+    n1->next = n2;
     n1->prev = NULL;
     insert(n1, NULL);
     printf("After add n1 again\n");
@@ -221,12 +202,11 @@ void test(){
     printf("After deleting n2\n");
     disp();
     //creating n2 again
+    printf("Inserting n2 again\n");
     n2 = malloc(sizeof(struct Node)); 
     n2->data = 22;
-    //saying n2 is connected to n1 and n3 so that it joined our linked list
-    n2->next = n3;
-    n2->prev = n1;
+    n2->next = NULL;
+    n2->prev = NULL;
     insert(n2, n1);
     disp();
 }
-
